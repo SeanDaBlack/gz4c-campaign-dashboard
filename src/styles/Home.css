@@ -1,0 +1,14 @@
+.home-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
+  height: 100vh;
+  background-color: var(--color-light-gray);
+}
+
+.home-content h1 {
+  color: var(--color-burnt-orange);
+  font-size: 4rem;
+  margin: 1rem;
+}
