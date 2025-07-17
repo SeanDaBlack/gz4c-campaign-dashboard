@@ -1,13 +1,11 @@
-import React from "react";
+// import React from "react";
 import "../styles/Home.css"; // Assuming you have a CSS file for styling
 import { Button } from "@mui/material";
 
 export default function Home({
-  setIsAuthenticated,
   isAuthenticated,
 }: {
-  setIsAuthenticated: any;
-  isAuthenticated: any;
+  isAuthenticated: boolean;
 }) {
   return (
     <div className="home-content">

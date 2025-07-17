@@ -1,9 +1,9 @@
 // file to display all statements with an edit buutton to change one
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "../styles/Statements.css";
-import { Button, TextField, ButtonGroup } from "@mui/material";
-import { FileUpload } from "./FileUpload";
+import { Button } from "@mui/material";
+// import { FileUpload } from "./FileUpload";
 
 // import redirect component
 import { useNavigate } from "react-router-dom"; // Uncomment if you want to use react-router for navigation
@@ -24,7 +24,7 @@ export default function Statements() {
   const [statements, setStatements] = useState<StatementData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isEditing, setIsEditing] = useState(false);
+  // const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     fetchStatements();
@@ -42,7 +42,7 @@ export default function Statements() {
         headers: {
           "Content-Type": "application/json",
           // Add authorization if needed
-          // Authorization: `Bearer ${"password123"}`,
+          Authorization: `Bearer ${"password123"}`,
         },
       });
 
@@ -63,6 +63,20 @@ export default function Statements() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const createStatements = () => {
+    // Navigate to the edit statements page with empty fields
+    navigate("/edit-statements", {
+      state: {
+        title: "",
+        description: "",
+        imgSrc: "",
+        statement: "",
+        topics: [],
+        date: new Date().toISOString().split("T")[0], // Current date in YYYY-MM-DD format
+      },
+    });
   };
 
   const parseTopics = (topicsString: string): string[] => {
@@ -103,13 +117,23 @@ export default function Statements() {
       </p>
 
       {/* Add refresh button */}
-      <Button
-        onClick={fetchStatements}
-        variant="outlined"
-        style={{ marginBottom: "20px" }}
-      >
-        Refresh Statements
-      </Button>
+      {statements.length != 0 ? (
+        <Button
+          onClick={fetchStatements}
+          variant="outlined"
+          style={{ marginBottom: "20px" }}
+        >
+          Refresh Statements
+        </Button>
+      ) : (
+        <Button
+          onClick={createStatements}
+          variant="outlined"
+          style={{ marginBottom: "20px" }}
+        >
+          Create New Statements
+        </Button>
+      )}
 
       {/* Display statements */}
       {statements.length === 0 ? (

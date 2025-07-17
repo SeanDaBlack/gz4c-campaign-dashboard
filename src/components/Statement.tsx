@@ -1,9 +1,7 @@
 // file to display all statements with an edit buutton to change one
 
-import React, { useState, useEffect } from "react";
+// import React, { useState, useEffect } from "react";
 import "../styles/Statements.css"; // Assuming you have a CSS file for styling
-import { Button, TextField, ButtonGroup } from "@mui/material";
-import { FileUpload } from "./FileUpload"; // Adjust the import path as necessary
 
 // data = {
 //     date	"2025-07-03 20:57:25"

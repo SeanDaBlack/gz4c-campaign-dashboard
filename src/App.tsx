@@ -11,26 +11,28 @@ import Statements from "./components/Statements";
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const [selectedStatement, setSelectedStatement] = useState({
-    title: "",
-    description: "",
-    imgSrc: "",
-    statement: "",
-    topics: [],
-    date: "",
-  });
+  // const [selectedStatement, setSelectedStatement] = useState({
+  //   title: "",
+  //   description: "",
+  //   imgSrc: "",
+  //   statement: "",
+  //   topics: [],
+  //   date: "",
+  // });
 
   // if even not authenticated, redirect to login page
   if (!isAuthenticated) {
     return <Login setIsAuthenticated={setIsAuthenticated} />;
   }
 
-  const onLoad = () => {
-    const storedStatement = localStorage.getItem("currentStatement");
-    if (storedStatement) {
-      setSelectedStatement(JSON.parse(storedStatement));
-    }
-  };
+  // const onLoad = () => {
+  //   const storedStatement = localStorage.getItem("currentStatement");
+  //   if (storedStatement) {
+  //     setSelectedStatement(JSON.parse(storedStatement));
+  //   }
+  // };
+
+  // onLoad();
 
   return (
     <>
@@ -52,7 +54,7 @@ function App() {
             path="/"
             element={
               <Home
-                setIsAuthenticated={setIsAuthenticated}
+                // setIsAuthenticated={setIsAuthenticated}
                 isAuthenticated={isAuthenticated}
               />
             }
@@ -63,19 +65,7 @@ function App() {
           />
           <Route path="/statements" element={<Statements />} />
 
-          <Route
-            path="/edit-statements"
-            element={
-              <EditStatements
-                title={selectedStatement.title}
-                description={selectedStatement.description}
-                imgSrc={selectedStatement.imgSrc}
-                statement={selectedStatement.statement}
-                topics={selectedStatement.topics}
-                date={selectedStatement.date}
-              />
-            }
-          />
+          <Route path="/edit-statements" element={<EditStatements />} />
 
           {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>

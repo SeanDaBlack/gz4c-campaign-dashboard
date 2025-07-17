@@ -1,15 +1,14 @@
-// page to edit statements that are posted on the website, wants to have a text area for editing the statements and a button to save the changes
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import "../styles/Statements.css"; // Assuming you have a CSS file for styling
+import "../styles/Statements.css";
 import { Button, TextField } from "@mui/material";
-import { FileUpload } from "../components/FileUpload"; // Adjust the import path as necessary
+import { FileUpload } from "../components/FileUpload";
 
-import {
-  checkHighlighted,
-  wrapHighlighted,
-  prependHighlighted,
-} from "../util/statements";
+// import {
+//   // checkHighlighted,
+//   wrapHighlighted,
+//   prependHighlighted,
+// } from "../util/statements";
 
 interface StatementData {
   title: string;
@@ -18,6 +17,7 @@ interface StatementData {
   statement: string;
   topics: string[];
   date: string;
+  uuid: string;
 }
 
 export default function EditStatements() {
@@ -67,6 +67,7 @@ export default function EditStatements() {
     formData.append("description", desc);
     formData.append("topics", JSON.stringify(topics)); // Convert array to string
     formData.append("statement", statement);
+    formData.append("uuid", statementData?.uuid || crypto.randomUUID());
 
     // Add the file if it exists
     if (uploadedFile) {
@@ -98,49 +99,53 @@ export default function EditStatements() {
       });
   };
 
-  const replaceSubText = (
-    original: string,
-    substring: string,
-    replacement: string
-  ) => {
-    return original.replace(substring, replacement);
+  const handleClick = () => {
+    setUploadedFile(null); // Reset file upload state
   };
 
-  const handleClick = (tag: string) => {
-    const textBox = document.querySelector("textarea");
-    if (!textBox) return;
-    const originalText = textBox.value;
+  // const replaceSubText = (
+  //   original: string,
+  //   substring: string,
+  //   replacement: string
+  // ) => {
+  //   return original.replace(substring, replacement);
+  // };
 
-    const selection = window.getSelection()?.toString() || "";
+  // const handleClick = (tag: string) => {
+  //   const textBox = document.querySelector("textarea");
+  //   if (!textBox) return;
+  //   const originalText = textBox.value;
 
-    switch (tag) {
-      case "B":
-        textBox.value = replaceSubText(
-          originalText,
-          selection,
-          wrapHighlighted("**", statement)
-        );
-        break;
-      case "I":
-        textBox.value = replaceSubText(
-          originalText,
-          selection,
-          wrapHighlighted("*", statement)
-        );
-        break;
-      case "H1":
-        console.log("Clicked tag:", tag);
+  //   const selection = window.getSelection()?.toString() || "";
 
-        prependHighlighted("# ", statement);
-        break;
-      default:
-        break;
-    }
+  //   switch (tag) {
+  //     case "B":
+  //       textBox.value = replaceSubText(
+  //         originalText,
+  //         selection,
+  //         wrapHighlighted("**", statement)
+  //       );
+  //       break;
+  //     case "I":
+  //       textBox.value = replaceSubText(
+  //         originalText,
+  //         selection,
+  //         wrapHighlighted("*", statement)
+  //       );
+  //       break;
+  //     case "H1":
+  //       console.log("Clicked tag:", tag);
 
-    // if (checkHighlighted()) {
+  //       prependHighlighted("# ", statement);
+  //       break;
+  //     default:
+  //       break;
+  //   }
 
-    // }
-  };
+  //   // if (checkHighlighted()) {
+
+  //   // }
+  // };
 
   return (
     <div className="statements-content">
@@ -218,7 +223,15 @@ export default function EditStatements() {
         value={statement}
         onChange={(e) => setStatement(e.target.value)}
       />
-      <FileUpload onFileUpload={handleFileUpload} />
+      {uploadedFile ? (
+        <FileUpload onFileUpload={handleFileUpload} />
+      ) : (
+        <>
+          <button onClick={handleClick}>
+            <img src={statementData?.imgSrc || ""} alt="Image preview" />
+          </button>
+        </>
+      )}
       <Button
         variant="contained"
         color="primary"

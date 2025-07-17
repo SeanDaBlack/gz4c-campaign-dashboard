@@ -64,6 +64,7 @@ nav a {
   font-weight: 500;
   margin: 0 1rem;
   justify-self: end;
+  align-self: center;
 }
 
 input,
