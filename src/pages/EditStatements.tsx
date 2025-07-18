@@ -230,6 +230,7 @@ export default function EditStatements() {
           <button onClick={handleClick}>
             <img src={statementData?.imgSrc || ""} alt="Image preview" />
           </button>
+          <FileUpload onFileUpload={handleFileUpload} />
         </>
       )}
       <Button
