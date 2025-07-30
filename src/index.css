@@ -118,7 +118,8 @@ textarea {
 
 /* COLOR SCHEME */
 :root {
-  --color-burnt-orange: #d35400;
+  /* --color-burnt-orange: #d35400; */
+  --color-burnt-orange: #e67e22;
   --color-cool-blue: #88d9e6;
   --color-orange-light: #e67e22;
   --color-dark-gray: #34495e;

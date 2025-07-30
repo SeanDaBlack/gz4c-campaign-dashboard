@@ -2,7 +2,7 @@
 import "../styles/Login.css"; // Assuming you have a CSS file for styling
 import { useNavigate } from "react-router-dom"; // Add this import
 
-import { Button } from "@mui/material";
+// import { Button } from "@mui/material";
 
 // Simple base64 encoding (not secure, but obfuscated)
 const ENCODED_PASSWORD = "cGFzc3dvcmQxMjM="; // base64 of ""
@@ -33,8 +33,7 @@ export default function Login({
             <label htmlFor="password">Password:</label>
             <input type="password" id="password" name="password" required />
           </div>
-          <Button
-            variant="contained"
+          <button
             color="primary"
             type="submit"
             style={{ marginTop: "10px" }}
@@ -56,7 +55,7 @@ export default function Login({
             }}
           >
             Login
-          </Button>
+          </button>
         </form>
       </div>
     </>

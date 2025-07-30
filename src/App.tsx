@@ -2,14 +2,18 @@ import { useState } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
-import EditStatements from "./pages/EditStatements";
-import Statements from "./components/Statements";
+import EditStatements from "./pages/Edits/EditStatements";
+import Statements from "./pages/Statements";
+import Press from "./pages/Press";
+import EditPress from "./pages/Edits/EditPress";
+import Initiatives from "./pages/Initiatives";
+import EditInitatives from "./pages/Edits/EditInitiatives";
 // import NotFound from "./pages/NotFound";
 
 // import
 
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Set to true for initial testing
 
   // const [selectedStatement, setSelectedStatement] = useState({
   //   title: "",
@@ -42,6 +46,9 @@ function App() {
             <>
               <Link to="/">Home</Link>
               <Link to="/statements">Statements</Link>
+              <Link to="/press">Press</Link>
+              <Link to="/initiatives">Initiatives</Link>
+
               <button onClick={() => setIsAuthenticated(false)}>Logout</button>
             </>
           ) : (
@@ -67,6 +74,15 @@ function App() {
 
           <Route path="/edit-statements" element={<EditStatements />} />
 
+          <Route path="/press" element={<Press />} />
+
+          <Route path="/edit-press" element={<EditPress />} />
+
+          <Route path="/initiatives" element={<Initiatives />} />
+          <Route
+            path="/edit-initiatives"
+            element={<EditInitatives />} // Assuming you have an edit component for initiatives
+          />
           {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>
       </div>

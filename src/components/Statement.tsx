@@ -20,6 +20,7 @@ interface StatementProps {
   statement: string;
   topics: string[];
   date: string;
+  uuid: string; // Assuming you want to include a unique identifier
 }
 
 // card style component to display a statement formatted like data above
@@ -28,7 +29,11 @@ export default function Statement(StatementProps: StatementProps) {
     <div className="statement-container">
       <h1>{StatementProps.title}</h1>
       <p className="statement-description">{StatementProps.description}</p>
-      <img src={StatementProps.imgSrc} alt="Statement" />
+      <img
+        src={StatementProps.imgSrc}
+        alt="Statement"
+        style={{ width: "300px", height: "300px" }}
+      />
       <p className="statement-content">{StatementProps.statement}</p>
       <p className="statement-topics">
         Topics: {StatementProps.topics.join(", ")}

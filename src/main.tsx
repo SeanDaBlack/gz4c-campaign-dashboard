@@ -6,11 +6,11 @@ import { BrowserRouter } from "react-router-dom";
 import React from "react";
 
 createRoot(document.getElementById("root")!).render(
-  <BrowserRouter>
-    <React.StrictMode>
+  <React.StrictMode>
+    <BrowserRouter basename="/gz4c-campaign-dashboard">
       <App />
-    </React.StrictMode>
-  </BrowserRouter>
+    </BrowserRouter>
+  </React.StrictMode>
   // <StrictMode>
   //   <App />
   // </StrictMode>,
