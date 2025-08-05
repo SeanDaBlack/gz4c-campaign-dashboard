@@ -5,10 +5,11 @@ import { useNavigate } from "react-router-dom"; // Add this import
 // import { Button } from "@mui/material";
 
 // Simple base64 encoding (not secure, but obfuscated)
-const ENCODED_PASSWORD = "cGFzc3dvcmQxMjM="; // base64 of ""
+const ENCODED_PASSWORD = import.meta.env.VITE_ENCODED_PASSWORD;
 
 function handleLogin(value: string) {
   console.log("Login attempt with password:", value);
+  console.log("Encoded password:", ENCODED_PASSWORD);
 
   // Decode the stored password
   const expectedPassword = atob(ENCODED_PASSWORD);

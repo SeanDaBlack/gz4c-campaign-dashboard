@@ -1,7 +1,8 @@
-interface FileUploadProps {
+export interface FileUploadProps {
   onFileUpload: (file: File | null) => void;
+  uploadedFile: File | null;
+  handleClick: () => void;
 }
-
 export const FileUpload: React.FC<FileUploadProps> = ({ onFileUpload }) => {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0] || null;

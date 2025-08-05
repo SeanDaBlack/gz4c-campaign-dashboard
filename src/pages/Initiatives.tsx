@@ -116,15 +116,6 @@ export default function Initiatives() {
     }
   };
 
-  const parseTopics = (topicsString: string): string[] => {
-    try {
-      return JSON.parse(topicsString);
-    } catch (error) {
-      console.error("Error parsing topics:", error);
-      return [];
-    }
-  };
-
   if (loading) {
     return (
       <div className="initiatives-container">
@@ -160,11 +151,7 @@ export default function Initiatives() {
           <button onClick={createInitiatives}>Create New Initiatives</button>
         </div>
       ) : (
-        <button
-          onClick={createInitiatives}
-          // variant="outlined"
-          style={{ marginBottom: "20px" }}
-        >
+        <button onClick={createInitiatives} style={{ marginBottom: "20px" }}>
           Create New Initiatives
         </button>
       )}
@@ -189,7 +176,6 @@ export default function Initiatives() {
               {/* Add edit button for each statement */}
               <div className="button-group">
                 <button
-                  // variant="contained"
                   id="edit"
                   style={{ margin: "10px 0" }}
                   onClick={() => {

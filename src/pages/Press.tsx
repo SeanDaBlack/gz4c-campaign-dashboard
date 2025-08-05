@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import "../styles/Press.css";
 import Publication from "../components/Publication";
@@ -8,6 +8,7 @@ interface PublicationData {
   title: string;
   publication: string;
   url: string;
+  imgSrc: string;
   date: string;
   uuid: string;
 }
@@ -62,6 +63,7 @@ export default function Press() {
       state: {
         title: "",
         publication: "",
+        imgSrc: "",
         url: "",
         date: new Date().toISOString().split("T")[0], // Default to today's date
       } as PublicationData,
@@ -147,13 +149,13 @@ export default function Press() {
                 key={"publication" + String(index)}
                 title={publicationData.title}
                 publication={publicationData.publication}
+                imgSrc={publicationData.imgSrc}
                 date={publicationData.date}
                 url={publicationData.url}
                 uuid={publicationData.uuid}
               />
               <div className="button-group">
                 <button
-                  // variant="contained"
                   id="edit"
                   style={{ margin: "10px 0" }}
                   onClick={() => {
@@ -171,6 +173,9 @@ export default function Press() {
                       state: {
                         title: publicationData.title,
                         date: publicationData.date,
+                        publication: publicationData.publication,
+                        url: publicationData.url,
+                        imgSrc: publicationData.imgSrc,
                         uuid: publicationData.uuid, // Pass the UUID if available
                       },
                     });

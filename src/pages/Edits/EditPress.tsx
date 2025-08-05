@@ -15,6 +15,7 @@ interface PressData {
   publication: string;
   url: string;
   date: string;
+  imgSrc: string;
   uuid: string;
 }
 
@@ -28,7 +29,9 @@ export default function EditStatements() {
   const [title, setTitle] = useState("");
   const [publication, setPublication] = useState("");
   const [url, setUrl] = useState("");
-  const [uuid, setUuid] = useState("");
+  const [, setUuid] = useState("");
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [imgSrc, setImgSrc] = useState("");
 
   // Update states when component mounts or when location state changes
   useEffect(() => {
@@ -37,6 +40,7 @@ export default function EditStatements() {
       setTitle(pressData.title || "Initial Title");
       setUrl(pressData.url || "");
       setUuid(pressData.uuid || crypto.randomUUID());
+      setImgSrc(pressData.imgSrc || "");
     }
   }, [pressData]);
 
@@ -48,6 +52,10 @@ export default function EditStatements() {
     }
   }, [pressData, navigate]);
 
+  const handleFileUpload = (file: File | null) => {
+    setUploadedFile(file);
+  };
+
   const handleSave = () => {
     console.log("Publication saved:", publication);
 
@@ -58,6 +66,10 @@ export default function EditStatements() {
     formData.append("url", url);
     formData.append("date", pressData.date);
     formData.append("uuid", pressData?.uuid || crypto.randomUUID());
+
+    if (uploadedFile) {
+      formData.append("file", uploadedFile);
+    }
 
     const post_url =
       "https://get-statement-data-893947194926.us-central1.run.app/get_press";
@@ -89,6 +101,11 @@ export default function EditStatements() {
       });
   };
 
+  const handleClick = () => {
+    console.log("Image removed");
+    setUploadedFile(null); // Reset file upload state
+    setImgSrc(""); // Reset image source
+  };
   return (
     <>
       <div className="main-content">
@@ -126,6 +143,18 @@ export default function EditStatements() {
             value={url}
             onChange={(e) => setUrl(e.target.value)}
           />
+
+          {imgSrc ? (
+            <button onClick={handleClick} style={{ background: "none" }}>
+              <img src={pressData.imgSrc} height={"300px"} />
+            </button>
+          ) : (
+            <FileUpload
+              onFileUpload={handleFileUpload}
+              uploadedFile={uploadedFile}
+              handleClick={handleClick}
+            />
+          )}
 
           <button type="button" onClick={handleSave}>
             Confirm

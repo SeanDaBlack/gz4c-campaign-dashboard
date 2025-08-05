@@ -6,6 +6,7 @@ interface PressProps {
   publication: string;
   date: string;
   url: string;
+  imgSrc: string;
   uuid: string;
 }
 
@@ -15,6 +16,11 @@ export default function Publication(PressProps: PressProps) {
       <h1>
         <a href={PressProps.url}>{PressProps.title}</a>
       </h1>
+      <img
+        src={PressProps.imgSrc}
+        alt="Publication"
+        style={{ width: "300px", height: "300px" }}
+      />
       <p className="form-publication">{PressProps.publication}</p>
       <p className="form-url">{PressProps.url}</p>
       <p className="form-date">Date: {PressProps.date}</p>

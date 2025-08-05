@@ -136,7 +136,7 @@ export default function Statements() {
       <div className="statements-container">
         <h1>Statements</h1>
         <p>Error: {error}</p>
-        <button onClick={fetchStatements} variant="contained" color="primary">
+        <button onClick={fetchStatements} color="primary">
           Retry
         </button>
       </div>
@@ -157,11 +157,7 @@ export default function Statements() {
           <button onClick={createStatements}>Create New Statements</button>
         </div>
       ) : (
-        <button
-          onClick={createStatements}
-          // variant="outlined"
-          style={{ marginBottom: "20px" }}
-        >
+        <button onClick={createStatements} style={{ marginBottom: "20px" }}>
           Create New Statements
         </button>
       )}
@@ -185,7 +181,6 @@ export default function Statements() {
               {/* Add edit button for each statement */}
               <div className="button-group">
                 <button
-                  // variant="contained"
                   id="edit"
                   style={{ margin: "10px 0" }}
                   onClick={() => {

@@ -36,7 +36,7 @@ export default function EditInitatives() {
   const [achievement, setAchievement] = useState(""); // Uncomment if you want to edit achievement
   // const [date, setDate] = useState("");
 
-  const [uuid, setUuid] = useState("");
+  const [, setUuid] = useState("");
 
   // Update states when component mounts or when location state changes
   useEffect(() => {

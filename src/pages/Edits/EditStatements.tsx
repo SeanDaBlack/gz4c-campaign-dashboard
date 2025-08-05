@@ -32,7 +32,7 @@ export default function EditStatements() {
   const [desc, setDesc] = useState("");
   const [topics, setTopics] = useState<string[]>([]);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-  const [uuid, setUuid] = useState("");
+  const [, setUuid] = useState("");
   const [imgSrc, setImgSrc] = useState("");
 
   // Update states when component mounts or when location state changes
