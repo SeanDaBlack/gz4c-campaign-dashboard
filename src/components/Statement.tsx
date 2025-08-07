@@ -37,6 +37,7 @@ export default function Statement(StatementProps: StatementProps) {
       <p className="statement-content">{StatementProps.statement}</p>
       <p className="statement-topics">
         Topics: {StatementProps.topics.join(", ")}
+
       </p>
       <p className="statement-date">Date: {StatementProps.date}</p>
     </div>

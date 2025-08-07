@@ -65,6 +65,7 @@ export default function Press() {
         publication: "",
         imgSrc: "",
         url: "",
+
         date: new Date().toISOString().split("T")[0], // Default to today's date
       } as PublicationData,
     });
@@ -164,7 +165,7 @@ export default function Press() {
 
                     // store the statement data in local storage
                     localStorage.setItem(
-                      "currentStatement",
+                      "PublicationData",
                       JSON.stringify(publicationData)
                     );
 
@@ -177,11 +178,12 @@ export default function Press() {
                         url: publicationData.url,
                         imgSrc: publicationData.imgSrc,
                         uuid: publicationData.uuid, // Pass the UUID if available
+
                       },
                     });
                   }}
                 >
-                  Edit Statement
+                  Edit Press Entry
                 </button>
                 <button
                   id="delete"
@@ -193,7 +195,7 @@ export default function Press() {
                     // You can implement the delete functionality here
                   }}
                 >
-                  Delete Statement
+                  Delete Press Entry
                 </button>
               </div>
             </div>

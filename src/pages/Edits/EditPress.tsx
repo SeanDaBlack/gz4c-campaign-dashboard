@@ -1,8 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, type MouseEvent } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../../styles/Statements.css";
 // import { Button, TextField } from "@mui/material";
 import { FileUpload } from "../../components/FileUpload";
+
+
+import { validateUrl } from "../../util/handle_url"; // Import URL validation utility
 
 // import {
 //   // checkHighlighted,
@@ -19,7 +22,7 @@ interface PressData {
   uuid: string;
 }
 
-export default function EditStatements() {
+export default function EditPress() {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -32,6 +35,10 @@ export default function EditStatements() {
   const [, setUuid] = useState("");
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [imgSrc, setImgSrc] = useState("");
+  const [date, setDate] = useState(pressData.date || ""); // Initialize date from pressData or empty string
+
+  const [showImageUpload, setShowImageUpload] = useState(false);
+
 
   // Update states when component mounts or when location state changes
   useEffect(() => {
@@ -41,6 +48,8 @@ export default function EditStatements() {
       setUrl(pressData.url || "");
       setUuid(pressData.uuid || crypto.randomUUID());
       setImgSrc(pressData.imgSrc || "");
+      setDate(pressData.date || ""); // Set initial date from pressData
+
     }
   }, [pressData]);
 
@@ -64,7 +73,8 @@ export default function EditStatements() {
     formData.append("title", title);
     formData.append("publication", publication);
     formData.append("url", url);
-    formData.append("date", pressData.date);
+    formData.append("date", date);
+    formData.append("imgSrc", imgSrc);
     formData.append("uuid", pressData?.uuid || crypto.randomUUID());
 
     if (uploadedFile) {
@@ -105,7 +115,39 @@ export default function EditStatements() {
     console.log("Image removed");
     setUploadedFile(null); // Reset file upload state
     setImgSrc(""); // Reset image source
+    setUrl(""); // Reset URL input
   };
+
+
+  const handleBtnClick = (e: any) => {
+    e.preventDefault();
+    switch (e.currentTarget.innerText) {
+      case "Image from Upload":
+        console.log("Image from Upload selected");
+        setShowImageUpload(true);
+        setImgSrc(""); // Reset image source when switching to upload
+        break;
+      case "Image from Url":
+        console.log("Image from URL selected");
+        setShowImageUpload(false);
+        break;
+      default:
+        break;
+    }
+
+  }
+
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newUrl = e.target.value;
+    if (validateUrl(newUrl)) {
+      setImgSrc(newUrl);
+      console.log("Valid URL:", newUrl);
+    } else {
+      console.error("Invalid URL format");
+    }
+  };
+
   return (
     <>
       <div className="main-content">
@@ -123,6 +165,15 @@ export default function EditStatements() {
             placeholder="Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+          />
+          <label htmlFor="edit-date"></label>
+          <input
+            type="date"
+            id="edit-date"
+            name="edit-date"
+            placeholder="Date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
           />
 
           <label htmlFor="edit-publication"></label>
@@ -146,15 +197,57 @@ export default function EditStatements() {
 
           {imgSrc ? (
             <button onClick={handleClick} style={{ background: "none" }}>
-              <img src={pressData.imgSrc} height={"300px"} />
+              <img src={imgSrc} height={"300px"} />
             </button>
           ) : (
-            <FileUpload
-              onFileUpload={handleFileUpload}
-              uploadedFile={uploadedFile}
-              handleClick={handleClick}
-            />
+            null
           )}
+
+          <div className="btn-group">
+            <button onClick={(e) => handleBtnClick(e)}>Image from Url</button>
+            <button onClick={(e) => handleBtnClick(e)}>Image from Upload</button>
+
+          </div>
+
+
+          {showImageUpload ? (
+            <div className="upload">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  if (e.target.files && e.target.files[0]) {
+                    handleFileUpload(e.target.files[0]);
+                  }
+                }}
+              />
+            </div>
+          ) : <div className="upload">
+            <input type="text" placeholder="image url" onChange={handleChange} value={imgSrc} />
+
+          </div>}
+
+
+
+
+
+          <>
+            {
+              pressData.url ? <img src={pressData.url} /> : (
+                <>
+                  {/* <p>No image available</p> */}
+
+
+                </>
+              )
+            }
+
+
+
+          </>
+
+
+
 
           <button type="button" onClick={handleSave}>
             Confirm

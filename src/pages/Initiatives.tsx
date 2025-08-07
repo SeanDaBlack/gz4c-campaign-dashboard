@@ -20,6 +20,8 @@ interface InitiativeData {
   solution: string;
   achievement: string;
   date: string;
+  imgSrc: string; // Optional image source, can be used for displaying an image
+  topics: string[]; // Array of topics, can be used for filtering or categorization
   uuid: string;
 }
 
@@ -78,6 +80,9 @@ export default function Initiatives() {
         problem: "",
         solution: "",
         achievement: "",
+        imgSrc: "", // Pass empty string for imgSrc
+        topics: [], // Pass empty array
+
         date: new Date().toISOString().split("T")[0], // Set current date as default
         uuid: crypto.randomUUID(), // Generate a new UUID
       },
@@ -171,6 +176,8 @@ export default function Initiatives() {
                 solution={initiativeData.solution}
                 achievement={initiativeData.achievement}
                 date={initiativeData.date}
+                imgSrc={initiativeData.imgSrc || ""} // Pass imgSrc if available
+                topics={initiativeData.topics || []} // Pass topics if available
                 uuid={initiativeData.uuid} // Pass the UUID if available
               />
               {/* Add edit button for each statement */}
@@ -180,7 +187,7 @@ export default function Initiatives() {
                   style={{ margin: "10px 0" }}
                   onClick={() => {
                     // Navigate to edit page or open edit modal
-                    console.log("Edit statement:", initiativeData.title);
+                    console.log("Edit Initiative:", initiativeData.title);
 
                     // store the statement data in local storage
                     localStorage.setItem(
@@ -198,6 +205,8 @@ export default function Initiatives() {
                         solution: initiativeData.solution,
                         achievement: initiativeData.achievement,
                         date: initiativeData.date,
+                        topics: initiativeData.topics || [], // Pass topics if available
+                        imgSrc: initiativeData.imgSrc || "", // Pass imgSrc if available
                         uuid: initiativeData.uuid, // Pass the UUID if available
                       },
                     });

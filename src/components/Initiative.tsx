@@ -9,6 +9,8 @@ interface InitiativeProps {
   solution: string;
   achievement: string;
   date: string;
+  topics: string[]; // Array of topics, can be used for filtering or categorization
+  imgSrc: string; // Optional image source, can be used for displaying an image
   uuid: string;
 }
 
@@ -19,6 +21,15 @@ export default function Initiative(InitiativeProps: InitiativeProps) {
       <h1>
         <a href={InitiativeProps.url}>{InitiativeProps.title}</a>
       </h1>
+      <img
+        src={InitiativeProps.imgSrc}
+        alt="Publication"
+        style={{ width: "300px", height: "300px" }}
+      />
+      <p className="statement-topics">
+        Topics: {InitiativeProps.topics.join(", ")}
+
+      </p>
       <p className="form-item-content">{InitiativeProps.url}</p>
       <p className="form-item-content">
         Archived: {InitiativeProps.archived ? "Yes" : "No"}

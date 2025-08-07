@@ -18,7 +18,7 @@ interface StatementData {
   imgSrc: string;
   statement: string;
   title: string;
-  topics: string; // JSON string that needs to be parsed
+  topics: string[]; // JSON string that needs to be parsed
   uuid: string; // Unique identifier for the statement
 }
 
@@ -174,7 +174,8 @@ export default function Statements() {
                 description={statementData.description}
                 imgSrc={statementData.imgSrc}
                 statement={statementData.statement}
-                topics={parseTopics(statementData.topics)}
+                // topics={parseTopics(statementData.topics)}
+                topics={statementData.topics}
                 date={statementData.date}
                 uuid={statementData.uuid} // Pass the UUID if available
               />
@@ -200,7 +201,8 @@ export default function Statements() {
                         description: statementData.description,
                         imgSrc: statementData.imgSrc,
                         statement: statementData.statement,
-                        topics: parseTopics(statementData.topics),
+                        // topics: parseTopics(statementData.topics),
+                        topics: statementData.topics,
                         date: statementData.date,
                         uuid: statementData.uuid, // Pass the UUID if available
                       },

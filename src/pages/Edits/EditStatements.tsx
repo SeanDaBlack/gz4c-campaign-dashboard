@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "../../styles/Statements.css";
 // import { Button, TextField } from "@mui/material";
 import { FileUpload } from "../../components/FileUpload";
+import { validateUrl } from "../../util/handle_url"; // Import URL validation utility
 
 // import {
 //   // checkHighlighted,
@@ -34,19 +35,28 @@ export default function EditStatements() {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [, setUuid] = useState("");
   const [imgSrc, setImgSrc] = useState("");
+  const [date, setDate] = useState(statementData?.date?.substring(0, 10) || ""); // Initialize date from statementData or empty string
+  const [showImageUpload, setShowImageUpload] = useState(false);
+
+
+
+
 
   // Update states when component mounts or when location state changes
   useEffect(() => {
     if (statementData) {
       setStatement(
         statementData.statement ||
-          "This is the initial statement. You can edit this text."
+        "This is the initial statement. You can edit this text."
       );
       setTitle(statementData.title || "Initial Title");
       setDesc(statementData.description || "Initial Description");
       setTopics(statementData.topics || []);
       setUuid(statementData.uuid || crypto.randomUUID());
       setImgSrc(statementData.imgSrc || "");
+      setDate(statementData.date || "");
+      // Fix: Check if topics is an array before calling join
+
     }
   }, [statementData]);
 
@@ -72,6 +82,8 @@ export default function EditStatements() {
     formData.append("topics", JSON.stringify(topics)); // Convert array to string
     formData.append("statement", statement);
     formData.append("uuid", statementData?.uuid || crypto.randomUUID());
+    formData.append("imgSrc", imgSrc); // Include imgSrc if you want to edit image source
+    formData.append("date", date); // Include date in the form data
 
     // Add the file if it exists
     if (uploadedFile) {
@@ -113,6 +125,38 @@ export default function EditStatements() {
     setUploadedFile(null); // Reset file upload state
     setImgSrc(""); // Reset image source
   };
+
+
+  const handleBtnClick = (e: any) => {
+    e.preventDefault();
+    switch (e.currentTarget.innerText) {
+      case "Image from Upload":
+        console.log("Image from Upload selected");
+        setShowImageUpload(true);
+        setImgSrc(""); // Reset image source when switching to upload
+        break;
+      case "Image from URL":
+        console.log("Image from URL selected");
+        setShowImageUpload(false);
+        break;
+      default:
+        break;
+    }
+
+  }
+
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newUrl = e.target.value;
+    if (validateUrl(newUrl)) {
+      setImgSrc(newUrl);
+      console.log("Valid URL:", newUrl);
+    } else {
+      console.error("Invalid URL format");
+    }
+  };
+
+
   return (
     <>
       <div className="main-content">
@@ -130,6 +174,15 @@ export default function EditStatements() {
             placeholder="Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+          />
+          <label htmlFor="edit-date"></label>
+          <input
+            type="date"
+            id="edit-date"
+            name="edit-date"
+            placeholder="Date"
+            value={date.substring(0, 10)}
+            onChange={(e) => setDate(e.target.value)}
           />
 
           <label htmlFor="edit-description"></label>
@@ -149,9 +202,11 @@ export default function EditStatements() {
             name="edit-topics"
             placeholder="Topics (comma separated)"
             value={topics.join(", ")}
-            onChange={(e) =>
-              setTopics(e.target.value.split(",").map((t) => t.trim()))
-            }
+            onChange={(e) => {
+              const newTopics = e.target.value.split(",").map((topic) => topic.trim());
+              setTopics(newTopics);
+
+            }}
           />
           <label htmlFor="edit-statement"></label>
           <textarea
@@ -164,15 +219,36 @@ export default function EditStatements() {
 
           {imgSrc ? (
             <button onClick={handleClick} style={{ background: "none" }}>
-              <img src={statementData.imgSrc} height={"300px"} />
+              <img src={imgSrc} height={"300px"} />
             </button>
           ) : (
-            <FileUpload
-              onFileUpload={handleFileUpload}
-              uploadedFile={uploadedFile}
-              handleClick={handleClick}
-            />
+            null
           )}
+
+          <div className="btn-group">
+            <button onClick={(e) => handleBtnClick(e)}>Image from Url</button>
+            <button onClick={(e) => handleBtnClick(e)}>Image from Upload</button>
+
+          </div>
+
+
+          {showImageUpload ? (
+            <div className="upload">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  if (e.target.files && e.target.files[0]) {
+                    handleFileUpload(e.target.files[0]);
+                  }
+                }}
+              />
+            </div>
+          ) : <div className="upload">
+            <input type="text" placeholder="image url" onChange={handleChange} value={imgSrc} />
+
+          </div>}
+
 
           <button type="button" onClick={handleSave}>
             Confirm

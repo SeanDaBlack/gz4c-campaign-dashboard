@@ -3,6 +3,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import "../../styles/Statements.css";
 // import { Button, TextField } from "@mui/material";
 // import { FileUpload } from "../../components/FileUpload";
+import { validateUrl } from "../../util/handle_url"; // Import URL validation utility
+
+
 
 // import {
 //   // checkHighlighted,
@@ -18,6 +21,8 @@ interface InitiativeData {
   solution: string;
   achievement: string;
   date: string;
+  imgSrc: string; // Uncomment if you want to edit image source
+  topics: string[]; // Array of topics, can be used for filtering or categorization
   uuid: string;
 }
 
@@ -34,10 +39,19 @@ export default function EditInitatives() {
   const [problem, setProblem] = useState("");
   const [solution, setSolution] = useState("");
   const [achievement, setAchievement] = useState(""); // Uncomment if you want to edit achievement
+  const [imgSrc, setImgSrc] = useState(""); // Uncomment if you want to edit image source 
   // const [date, setDate] = useState("");
+  const [topics, setTopics] = useState<string[]>(initiativeData?.topics || []); // Initialize topics from initiativeData or empty array
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [showImageUpload, setShowImageUpload] = useState(false);
+
+  const [date, setDate] = useState(initiativeData?.date || ""); // Initialize date from initiativeData or empty string
+
 
   const [, setUuid] = useState("");
-
+  const handleFileUpload = (file: File | null) => {
+    setUploadedFile(file);
+  };
   // Update states when component mounts or when location state changes
   useEffect(() => {
     if (initiativeData) {
@@ -47,6 +61,9 @@ export default function EditInitatives() {
       setProblem(initiativeData.problem);
       setSolution(initiativeData.solution);
       setAchievement(initiativeData.achievement);
+      setImgSrc(initiativeData.imgSrc || ""); // Set initial image source if available
+      setDate(initiativeData.date || ""); // Set initial date if available
+      setTopics(initiativeData.topics || []); // Initialize topics from initiativeData or empty array
 
       setUuid(initiativeData.uuid || crypto.randomUUID());
     }
@@ -71,8 +88,16 @@ export default function EditInitatives() {
     formData.append("problem", problem);
     formData.append("solution", solution);
     formData.append("achievement", achievement);
+    formData.append("imgSrc", imgSrc); // Include imgSrc if you want to edit image source
 
-    formData.append("date", initiativeData.date);
+    formData.append("topics", JSON.stringify(topics)); // Convert array to string
+
+    if (uploadedFile) {
+      formData.append("file", uploadedFile);
+    }
+
+
+    formData.append("date", date);
     formData.append("uuid", initiativeData?.uuid || crypto.randomUUID());
 
     const post_url =
@@ -105,6 +130,47 @@ export default function EditInitatives() {
       });
   };
 
+
+
+
+  const handleClick = () => {
+    console.log("Image removed");
+    setUploadedFile(null); // Reset file upload state
+    setImgSrc(""); // Reset image source
+    setUrl(""); // Reset URL input
+  };
+
+
+  const handleBtnClick = (e: any) => {
+    e.preventDefault();
+    switch (e.currentTarget.innerText) {
+      case "Image from Upload":
+        console.log("Image from Upload selected");
+        setShowImageUpload(true);
+        setImgSrc(""); // Reset image source when switching to upload
+        break;
+      case "Image from Url":
+        console.log("Image from URL selected");
+        setShowImageUpload(false);
+        break;
+      default:
+        break;
+    }
+
+  }
+
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newUrl = e.target.value;
+    if (validateUrl(newUrl)) {
+      setImgSrc(newUrl);
+      console.log("Valid URL:", newUrl);
+    } else {
+      console.error("Invalid URL format");
+    }
+  };
+
+
   return (
     <>
       <div className="main-content">
@@ -122,6 +188,29 @@ export default function EditInitatives() {
             placeholder="Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+          />
+
+          <label htmlFor="edit-date"></label>
+          <input
+            type="date"
+            id="edit-date"
+            name="edit-date"
+            placeholder="Date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
+          <label htmlFor="edit-topics"></label>
+          <input
+            type="text"
+            id="edit-topics"
+            name="edit-topics"
+            placeholder="Topics (comma separated)"
+            value={topics.join(", ")}
+            onChange={(e) => {
+              const newTopics = e.target.value.split(",").map((topic) => topic.trim());
+              setTopics(newTopics);
+
+            }}
           />
 
           <label htmlFor="edit-url"></label>
@@ -171,11 +260,56 @@ export default function EditInitatives() {
             onChange={(e) => setAchievement(e.target.value)}
           />
 
+
+
+
+
+
+          {imgSrc ? (
+            <button onClick={handleClick} style={{ background: "none" }}>
+              <img src={imgSrc} height={"300px"} />
+            </button>
+          ) : (
+            null
+          )}
+
+          <div className="btn-group">
+            <button onClick={(e) => handleBtnClick(e)}>Image from Url</button>
+            <button onClick={(e) => handleBtnClick(e)}>Image from Upload</button>
+
+          </div>
+
+
+          {showImageUpload ? (
+            <div className="upload">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => {
+                  if (e.target.files && e.target.files[0]) {
+                    handleFileUpload(e.target.files[0]);
+                  }
+                }}
+              />
+            </div>
+          ) : <div className="upload">
+            <input type="text" placeholder="image url" onChange={handleChange} value={imgSrc} />
+
+          </div>}
+
+
+
+
+
           <button type="button" onClick={handleSave}>
             Confirm
           </button>
         </div>
       </div>
+
+
+
+
     </>
   );
 }
