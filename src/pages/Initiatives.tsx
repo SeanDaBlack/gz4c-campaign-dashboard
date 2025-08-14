@@ -16,6 +16,7 @@ interface InitiativeData {
   title: string;
   url: string;
   archived: boolean;
+  summary: string;
   problem: string;
   solution: string;
   achievement: string;
@@ -172,6 +173,7 @@ export default function Initiatives() {
                 title={initiativeData.title}
                 url={initiativeData.url}
                 archived={initiativeData.archived}
+                summary={initiativeData.summary}
                 problem={initiativeData.problem}
                 solution={initiativeData.solution}
                 achievement={initiativeData.achievement}

@@ -17,6 +17,7 @@ interface InitiativeData {
   title: string;
   url: string;
   archived: boolean;
+  summary: string;
   problem: string;
   solution: string;
   achievement: string;
@@ -36,6 +37,7 @@ export default function EditInitatives() {
   const [title, setTitle] = useState("");
   const [url, setUrl] = useState("");
   const [archived, setArchived] = useState(true);
+  const [summary, setSummary] = useState("");
   const [problem, setProblem] = useState("");
   const [solution, setSolution] = useState("");
   const [achievement, setAchievement] = useState(""); // Uncomment if you want to edit achievement
@@ -58,6 +60,7 @@ export default function EditInitatives() {
       setTitle(initiativeData.title || "Initial Title");
       setUrl(initiativeData.url || "");
       setArchived(initiativeData.archived);
+      setSummary(initiativeData.summary);
       setProblem(initiativeData.problem);
       setSolution(initiativeData.solution);
       setAchievement(initiativeData.achievement);
@@ -85,6 +88,7 @@ export default function EditInitatives() {
     formData.append("title", title);
     formData.append("url", url);
     formData.append("archived", String(archived));
+    formData.append("summary", summary);
     formData.append("problem", problem);
     formData.append("solution", solution);
     formData.append("achievement", achievement);
@@ -231,6 +235,15 @@ export default function EditInitatives() {
               Boolean(archived) // Ensure archived is a boolean
             }
             onChange={(e) => setArchived(e.target.checked)}
+          />
+          <label htmlFor="edit-summary"></label>
+          <input
+            type="text"
+            id="edit-summary"
+            name="edit-summary"
+            placeholder="Summary"
+            value={summary}
+            onChange={(e) => setSummary(e.target.value)}
           />
           <label htmlFor="edit-problem"></label>
           <input

@@ -5,6 +5,7 @@ interface InitiativeProps {
   title: string;
   url: string;
   archived: boolean;
+  summary: string;
   problem: string;
   solution: string;
   achievement: string;
@@ -34,6 +35,7 @@ export default function Initiative(InitiativeProps: InitiativeProps) {
       <p className="form-item-content">
         Archived: {InitiativeProps.archived ? "Yes" : "No"}
       </p>
+      <p className="form-item-content">Summary: {InitiativeProps.summary}</p>
       <p className="form-item-content">Problem: {InitiativeProps.problem}</p>
       <p className="form-item-content">Solution: {InitiativeProps.solution}</p>
       <p className="form-item-content">
