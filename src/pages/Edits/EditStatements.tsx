@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../../styles/Statements.css";
 // import { Button, TextField } from "@mui/material";
-import { FileUpload } from "../../components/FileUpload";
+// import { FileUpload } from "../../components/FileUpload";
 import { validateUrl } from "../../util/handle_url"; // Import URL validation utility
 
 // import {

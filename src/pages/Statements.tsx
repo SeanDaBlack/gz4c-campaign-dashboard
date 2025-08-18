@@ -113,14 +113,14 @@ export default function Statements() {
     }
   };
 
-  const parseTopics = (topicsString: string): string[] => {
-    try {
-      return JSON.parse(topicsString);
-    } catch (error) {
-      console.error("Error parsing topics:", error);
-      return [];
-    }
-  };
+  // const parseTopics = (topicsString: string): string[] => {
+  //   try {
+  //     return JSON.parse(topicsString);
+  //   } catch (error) {
+  //     console.error("Error parsing topics:", error);
+  //     return [];
+  //   }
+  // };
 
   if (loading) {
     return (

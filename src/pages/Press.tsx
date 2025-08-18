@@ -125,7 +125,7 @@ export default function Press() {
   }
 
   return (
-    <div className="main-container">
+    <div className="statements-container">
       <h1>Press Page</h1>
       <p>This is the Press page content.</p>
 
