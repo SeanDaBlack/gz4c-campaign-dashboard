@@ -5,11 +5,12 @@ import "../../styles/Statements.css";
 // import { FileUpload } from "../../components/FileUpload";
 import { validateUrl } from "../../util/handle_url"; // Import URL validation utility
 
-// import {
-//   // checkHighlighted,
-//   wrapHighlighted,
-//   prependHighlighted,
-// } from "../util/statements";
+import {
+  // checkHighlighted,
+  wrapHighlighted,
+  prependHighlighted,
+  convertMarkdownToHTML,
+} from "../../util/statements";
 
 interface StatementData {
   title: string;
@@ -38,16 +39,12 @@ export default function EditStatements() {
   const [date, setDate] = useState(statementData?.date?.substring(0, 10) || ""); // Initialize date from statementData or empty string
   const [showImageUpload, setShowImageUpload] = useState(false);
 
-
-
-
-
   // Update states when component mounts or when location state changes
   useEffect(() => {
     if (statementData) {
       setStatement(
         statementData.statement ||
-        "This is the initial statement. You can edit this text."
+          "This is the initial statement. You can edit this text."
       );
       setTitle(statementData.title || "Initial Title");
       setDesc(statementData.description || "Initial Description");
@@ -56,7 +53,6 @@ export default function EditStatements() {
       setImgSrc(statementData.imgSrc || "");
       setDate(statementData.date || "");
       // Fix: Check if topics is an array before calling join
-
     }
   }, [statementData]);
 
@@ -126,7 +122,6 @@ export default function EditStatements() {
     setImgSrc(""); // Reset image source
   };
 
-
   const handleBtnClick = (e: any) => {
     e.preventDefault();
     switch (e.currentTarget.innerText) {
@@ -142,9 +137,7 @@ export default function EditStatements() {
       default:
         break;
     }
-
-  }
-
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newUrl = e.target.value;
@@ -155,7 +148,6 @@ export default function EditStatements() {
       console.error("Invalid URL format");
     }
   };
-
 
   return (
     <>
@@ -203,11 +195,57 @@ export default function EditStatements() {
             placeholder="Topics (comma separated)"
             value={topics.join(", ")}
             onChange={(e) => {
-              const newTopics = e.target.value.split(",").map((topic) => topic.trim());
+              const newTopics = e.target.value
+                .split(",")
+                .map((topic) => topic.trim());
               setTopics(newTopics);
-
             }}
           />
+
+          {/* btn group for "b" "i" and more */}
+          <div className="btn-group">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setStatement(wrapHighlighted("**", statement));
+              }}
+            >
+              B
+            </button>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setStatement(wrapHighlighted("*", statement));
+              }}
+            >
+              I
+            </button>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setStatement(prependHighlighted("# ", statement));
+              }}
+            >
+              H1
+            </button>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setStatement(prependHighlighted("## ", statement));
+              }}
+            >
+              H2
+            </button>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setStatement(prependHighlighted("### ", statement));
+              }}
+            >
+              H3
+            </button>
+          </div>
+
           <label htmlFor="edit-statement"></label>
           <textarea
             id="edit-statement"
@@ -217,20 +255,29 @@ export default function EditStatements() {
             onChange={(e) => setStatement(e.target.value)}
           />
 
+          <div className="preview-section">
+            <h3>Preview</h3>
+            <div
+              id="preview"
+              className="markdown-preview"
+              dangerouslySetInnerHTML={{
+                __html: convertMarkdownToHTML(statement),
+              }}
+            />
+          </div>
+
           {imgSrc ? (
             <button onClick={handleClick} style={{ background: "none" }}>
               <img src={imgSrc} height={"300px"} />
             </button>
-          ) : (
-            null
-          )}
+          ) : null}
 
           <div className="btn-group">
             <button onClick={(e) => handleBtnClick(e)}>Image from Url</button>
-            <button onClick={(e) => handleBtnClick(e)}>Image from Upload</button>
-
+            <button onClick={(e) => handleBtnClick(e)}>
+              Image from Upload
+            </button>
           </div>
-
 
           {showImageUpload ? (
             <div className="upload">
@@ -244,11 +291,16 @@ export default function EditStatements() {
                 }}
               />
             </div>
-          ) : <div className="upload">
-            <input type="text" placeholder="image url" onChange={handleChange} value={imgSrc} />
-
-          </div>}
-
+          ) : (
+            <div className="upload">
+              <input
+                type="text"
+                placeholder="image url"
+                onChange={handleChange}
+                value={imgSrc}
+              />
+            </div>
+          )}
 
           <button type="button" onClick={handleSave}>
             Confirm

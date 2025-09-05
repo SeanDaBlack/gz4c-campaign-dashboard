@@ -5,13 +5,13 @@ import "../../styles/Statements.css";
 // import { FileUpload } from "../../components/FileUpload";
 import { validateUrl } from "../../util/handle_url"; // Import URL validation utility
 
-
-
 // import {
 //   // checkHighlighted,
 //   wrapHighlighted,
 //   prependHighlighted,
 // } from "../util/statements";
+
+const ENCODED_PASSWORD = import.meta.env.VITE_ENCODED_PASSWORD;
 
 interface InitiativeData {
   title: string;
@@ -41,14 +41,13 @@ export default function EditInitatives() {
   const [problem, setProblem] = useState("");
   const [solution, setSolution] = useState("");
   const [achievement, setAchievement] = useState(""); // Uncomment if you want to edit achievement
-  const [imgSrc, setImgSrc] = useState(""); // Uncomment if you want to edit image source 
+  const [imgSrc, setImgSrc] = useState(""); // Uncomment if you want to edit image source
   // const [date, setDate] = useState("");
   const [topics, setTopics] = useState<string[]>(initiativeData?.topics || []); // Initialize topics from initiativeData or empty array
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [showImageUpload, setShowImageUpload] = useState(false);
 
   const [date, setDate] = useState(initiativeData?.date || ""); // Initialize date from initiativeData or empty string
-
 
   const [, setUuid] = useState("");
   const handleFileUpload = (file: File | null) => {
@@ -100,7 +99,6 @@ export default function EditInitatives() {
       formData.append("file", uploadedFile);
     }
 
-
     formData.append("date", date);
     formData.append("uuid", initiativeData?.uuid || crypto.randomUUID());
 
@@ -111,7 +109,7 @@ export default function EditInitatives() {
       method: "POST",
       headers: {
         // Remove "Content-Type" header - let browser set it automatically for FormData
-        Authorization: `Bearer ${"password123"}`,
+        Authorization: `Bearer ${atob(ENCODED_PASSWORD)}`,
       },
       body: formData, // Use FormData instead of JSON.stringify
     })
@@ -134,9 +132,6 @@ export default function EditInitatives() {
       });
   };
 
-
-
-
   const handleClick = () => {
     console.log("Image removed");
     setUploadedFile(null); // Reset file upload state
@@ -144,25 +139,25 @@ export default function EditInitatives() {
     setUrl(""); // Reset URL input
   };
 
-
   const handleBtnClick = (e: any) => {
-    e.preventDefault();
+    // e.preventDefault();
+    console.log(e.currentTarget.innerText);
+
     switch (e.currentTarget.innerText) {
       case "Image from Upload":
-        console.log("Image from Upload selected");
+        // console.log("Image from Upload selected");
         setShowImageUpload(true);
         setImgSrc(""); // Reset image source when switching to upload
         break;
       case "Image from Url":
         console.log("Image from URL selected");
         setShowImageUpload(false);
+
         break;
       default:
         break;
     }
-
-  }
-
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newUrl = e.target.value;
@@ -173,7 +168,6 @@ export default function EditInitatives() {
       console.error("Invalid URL format");
     }
   };
-
 
   return (
     <>
@@ -211,9 +205,10 @@ export default function EditInitatives() {
             placeholder="Topics (comma separated)"
             value={topics.join(", ")}
             onChange={(e) => {
-              const newTopics = e.target.value.split(",").map((topic) => topic.trim());
+              const newTopics = e.target.value
+                .split(",")
+                .map((topic) => topic.trim());
               setTopics(newTopics);
-
             }}
           />
 
@@ -273,25 +268,18 @@ export default function EditInitatives() {
             onChange={(e) => setAchievement(e.target.value)}
           />
 
-
-
-
-
-
           {imgSrc ? (
             <button onClick={handleClick} style={{ background: "none" }}>
               <img src={imgSrc} height={"300px"} />
             </button>
-          ) : (
-            null
-          )}
+          ) : null}
 
           <div className="btn-group">
             <button onClick={(e) => handleBtnClick(e)}>Image from Url</button>
-            <button onClick={(e) => handleBtnClick(e)}>Image from Upload</button>
-
+            <button onClick={(e) => handleBtnClick(e)}>
+              Image from Upload
+            </button>
           </div>
-
 
           {showImageUpload ? (
             <div className="upload">
@@ -305,24 +293,22 @@ export default function EditInitatives() {
                 }}
               />
             </div>
-          ) : <div className="upload">
-            <input type="text" placeholder="image url" onChange={handleChange} value={imgSrc} />
-
-          </div>}
-
-
-
-
+          ) : (
+            <div className="upload">
+              <input
+                type="text"
+                placeholder="image url"
+                onChange={handleChange}
+                value={imgSrc}
+              />
+            </div>
+          )}
 
           <button type="button" onClick={handleSave}>
             Confirm
           </button>
         </div>
       </div>
-
-
-
-
     </>
   );
 }

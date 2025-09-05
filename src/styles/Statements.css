@@ -32,7 +32,7 @@ div.statements-content .edit-buttons Button {
   flex-direction: column;
   align-items: center;
   padding: 2rem;
-  border: 3px solid var(--color-burnt-orange);
+  /* border: 3px solid var(--color-burnt-orange); */
 }
 
 .statement-container {
@@ -52,13 +52,14 @@ div.statements-content .edit-buttons Button {
   flex-direction: row;
   gap: 1rem;
   /* width: 50%; */
+  flex-wrap: wrap;
 }
 
 .cardItem {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  /* width: 100%; */
   max-width: 800px;
   padding: 1rem;
   border-radius: 8px;
@@ -94,4 +95,27 @@ a {
   justify-content: center;
   justify-self: center;
   text-align: center;
+}
+
+.preview-section {
+  margin-top: 20px;
+  width: 100%;
+  max-width: 800px;
+  border: 3px solid var(--color-burnt-orange);
+}
+
+div.btn-group {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+div.btn-group button {
+  background-color: var(--color-burnt-orange);
+  color: var(--color-white);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }

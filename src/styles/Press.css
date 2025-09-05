@@ -5,8 +5,6 @@ div.main-container {
   padding: 2rem;
 }
 
-
-
 div.upload {
   display: flex;
   flex-direction: row;
@@ -33,15 +31,13 @@ div.upload button {
   height: max-content;
   height: 100%;
   /* make same height as the input */
-
-
 }
 
 div.btn-group {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin-top: 1rem;
+  margin: 1rem;
 }
 
 div.btn-group button {

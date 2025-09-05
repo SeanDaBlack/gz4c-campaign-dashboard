@@ -12,6 +12,8 @@ import Statement from "../components/Statement";
 const url =
   "https://get-statement-data-893947194926.us-central1.run.app/get_statements";
 
+const ENCODED_PASSWORD = import.meta.env.VITE_ENCODED_PASSWORD;
+
 interface StatementData {
   date: string;
   description: string;
@@ -44,7 +46,7 @@ export default function Statements() {
         headers: {
           "Content-Type": "application/json",
           // Add authorization if needed
-          Authorization: `Bearer ${"password123"}`,
+          Authorization: `Bearer ${atob(ENCODED_PASSWORD)}`,
         },
       });
 

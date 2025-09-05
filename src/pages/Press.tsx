@@ -16,6 +16,8 @@ interface PublicationData {
 const post_url =
   "https://get-statement-data-893947194926.us-central1.run.app/get_press";
 
+const ENCODED_PASSWORD = import.meta.env.VITE_ENCODED_PASSWORD;
+
 export default function Press() {
   const [pressList, setPressList] = useState<PublicationData[]>([]);
   const [loading, setLoading] = useState(true);
@@ -36,7 +38,7 @@ export default function Press() {
         headers: {
           "Content-Type": "application/json",
           // Add authorization if needed
-          Authorization: `Bearer ${"password123"}`,
+          Authorization: `Bearer ${atob(ENCODED_PASSWORD)}`,
         },
       });
 
@@ -178,7 +180,6 @@ export default function Press() {
                         url: publicationData.url,
                         imgSrc: publicationData.imgSrc,
                         uuid: publicationData.uuid, // Pass the UUID if available
-
                       },
                     });
                   }}
