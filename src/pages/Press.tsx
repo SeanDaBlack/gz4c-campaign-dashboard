@@ -86,7 +86,7 @@ export default function Press() {
         method: "DELETE",
         headers: {
           // Remove "Content-Type" header - let browser set it automatically for FormData
-          Authorization: `Bearer ${"password123"}`,
+          Authorization: `Bearer ${atob(ENCODED_PASSWORD)}`,
         },
         body: formData, // Use FormData instead of JSON.stringify
       });

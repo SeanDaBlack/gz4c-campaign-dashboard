@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../../styles/Statements.css";
+import "../../styles/ALL_PAGES.css";
 // import { Button, TextField } from "@mui/material";
 // import { FileUpload } from "../../components/FileUpload";
 import { validateUrl } from "../../util/handle_url"; // Import URL validation utility
@@ -21,6 +22,8 @@ interface StatementData {
   date: string;
   uuid: string;
 }
+
+const ENCODED_PASSWORD = import.meta.env.VITE_ENCODED_PASSWORD;
 
 export default function EditStatements() {
   const location = useLocation();
@@ -44,7 +47,7 @@ export default function EditStatements() {
     if (statementData) {
       setStatement(
         statementData.statement ||
-          "This is the initial statement. You can edit this text."
+        "This is the initial statement. You can edit this text."
       );
       setTitle(statementData.title || "Initial Title");
       setDesc(statementData.description || "Initial Description");
@@ -93,7 +96,7 @@ export default function EditStatements() {
       method: "POST",
       headers: {
         // Remove "Content-Type" header - let browser set it automatically for FormData
-        Authorization: `Bearer ${"password123"}`,
+        Authorization: `Bearer ${atob(ENCODED_PASSWORD)}`,
       },
       body: formData, // Use FormData instead of JSON.stringify
     })
@@ -154,10 +157,7 @@ export default function EditStatements() {
       <div className="main-content">
         <h1>Edit Statement</h1>
 
-        <div
-          className="edit-form"
-          style={{ width: "100%", display: "flex", flexDirection: "column" }}
-        >
+        <div className="edit-form">
           <label htmlFor="edit-title"></label>
           <input
             type="text"

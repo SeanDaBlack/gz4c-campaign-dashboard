@@ -48,6 +48,11 @@ export default function Login({
 
               if (handleLogin(passwordInput?.value || "")) {
                 setIsAuthenticated(true);
+                // set a flag in localStorage to remember authentication
+                localStorage.setItem("isAuthenticated", "true");
+
+
+
                 // Redirect to home or dashboard page
                 navigate("/");
               } else {
