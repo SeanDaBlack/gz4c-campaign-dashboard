@@ -51,7 +51,7 @@ export default function EditTools() {
   const [newAnswer, setNewAnswer] = useState<string>("");
 
   const [optionStep, setOptionStep] = useState<string>("");
-  const [step, setStep] = useState<{ title: string; content: string }>({ title: "", content: "" });
+  // const [step, setStep] = useState<{ title: string; content: string }>({ title: "", content: "" });
   const [newStep, setNewStep] = useState<{ title: string; content: string }>({ title: "", content: "" });
 
 
@@ -337,8 +337,9 @@ export default function EditTools() {
               <option value="">---Select a Step to Edit---</option>
               <option value="new">+ Add New Step</option>
 
-              {Object.entries(steps).map(([key, step], index) => (
+              {Object.entries(steps).map(([key,], index) => (
                 <option key={index} value={key}>{`Step: ${index + 1}`}</option>
+
               ))}
 
             </select>
