@@ -7,8 +7,8 @@ import "../../styles/ALL_PAGES.css";
 import { validateUrl } from "../../util/handle_url"; // Import URL validation utility
 
 
-// const post_url = "https://get-statement-data-893947194926.us-central1.run.app/get_tools";
-const post_url = "http://127.0.0.1:8080/get_tools";
+const post_url = "https://get-statement-data-893947194926.us-central1.run.app/get_tools";
+// const post_url = "http://127.0.0.1:8080/get_tools";
 
 const ENCODED_PASSWORD = import.meta.env.VITE_ENCODED_PASSWORD;
 
@@ -127,6 +127,11 @@ export default function EditTools() {
 
     formData.append("date", date);
     formData.append("uuid", toolData?.uuid || crypto.randomUUID());
+
+    console.log("Form Data to be sent:");
+    for (const pair of formData.entries()) {
+      console.log(`${pair[0]}: ${pair[1]}`);
+    }
 
     fetch(post_url, {
       method: "POST",
