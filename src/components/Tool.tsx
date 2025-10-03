@@ -12,7 +12,9 @@ interface ToolProps {
   url: string;
   imgSrc: string;
   feature: boolean;
-  steps: { [key: string]: { title: string; content: string } };
+  // steps: { [key: string]: { title: string; content: string } };
+  stepsApple: string;
+  stepsAndroid: string;
   questions: { q: string, a: string }[];
 
 
@@ -40,16 +42,25 @@ export default function Tool(ToolProps: ToolProps) {
           <p className="form-item-content">Featured: {ToolProps.feature}</p>
           <p className="form-item-content">Online: {ToolProps.online}</p>
           <p className="form-item-content">Sunsetted: {ToolProps.sunsetted}</p>
-          <p className="form-item-content">Email Counter: {ToolProps.emailCounter}</p>
+          {/* <p className="form-item-content">Email Counter: {ToolProps.emailCounter}</p> */}
 
           <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", marginTop: "20px" }}>
-            {Object.entries(ToolProps.steps).map(([key, step]) => (
+            {/* {Object.entries(ToolProps.steps).map(([key, step]) => (
               <div key={key}>
                 {key}:
                 <h4>{step.title}</h4>
                 <p>{step.content}</p>
               </div>
-            ))}
+            ))} */}
+            Steps:
+            <div style={{ marginBottom: "10px" }}>
+              <h4>Apple</h4>
+              <p>{ToolProps.stepsApple}</p>
+            </div>
+            <div style={{ marginBottom: "10px" }}>
+              <h4>Android</h4>
+              <p>{ToolProps.stepsAndroid}</p>
+            </div>
           </div>
           <div>
             {ToolProps.questions ? ToolProps.questions.map((questionObj, index) => (

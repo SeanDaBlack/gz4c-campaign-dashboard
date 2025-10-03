@@ -42,7 +42,7 @@ export default function EditTools() {
   const [online, setOnline] = useState(toolData?.online || false);
   const [sunsetted, setSunsetted] = useState(toolData?.sunsetted || false);
   const [feature, setFeature] = useState(toolData?.feature || false);
-  const [emailCounter, setEmailCounter] = useState(toolData?.emailCounter || 0);
+  // const [emailCounter, setEmailCounter] = useState(toolData?.emailCounter || 0);
   const [steps, setSteps] = useState<{ [key: string]: { title: string; content: string } }>({});
   const [questions, setQuestions] = useState<{ q: string, a: string }[]>([]);
   // const [error, setError] = useState<string | null>(null);
@@ -50,9 +50,12 @@ export default function EditTools() {
   const [newQuestion, setNewQuestion] = useState<string>("");
   const [newAnswer, setNewAnswer] = useState<string>("");
 
-  const [optionStep, setOptionStep] = useState<string>("");
+  const [appleSteps, setAppleSteps] = useState("");
+  const [androidSteps, setAndroidSteps] = useState("");
+
+  // const [optionStep, setOptionStep] = useState<string>("");
   // const [step, setStep] = useState<{ title: string; content: string }>({ title: "", content: "" });
-  const [newStep, setNewStep] = useState<{ title: string; content: string }>({ title: "", content: "" });
+  // const [newStep, setNewStep] = useState<{ title: string; content: string }>({ title: "", content: "" });
 
 
 
@@ -79,7 +82,7 @@ export default function EditTools() {
       setOnline(Boolean(toolData.online));
       setSunsetted(Boolean(toolData.sunsetted));
       setFeature(Boolean(toolData.feature));
-      setEmailCounter(toolData.emailCounter || 0);
+      // setEmailCounter(toolData.emailCounter || 0);
       setSteps(toolData.steps || {});
       setQuestions(toolData.questions || []);
       setImgSrc(toolData.imgSrc || ""); // Uncomment if you want to edit image source
@@ -105,13 +108,16 @@ export default function EditTools() {
     formData.append("title", title);
     formData.append("description", description);
     formData.append("longerDescription", longerDescription);
+    formData.append("stepsApple", appleSteps);
+    formData.append("stepsAndroid", androidSteps);
     formData.append("online", String(online));
     formData.append("sunsetted", String(sunsetted));
     formData.append("feature", String(feature));
-    formData.append("emailCounter", String(emailCounter));
+    // formData.append("emailCounter", String(emailCounter));
     formData.append("steps", JSON.stringify(steps));
     formData.append("questions", JSON.stringify(questions));
     formData.append("imgSrc", imgSrc);
+
     formData.append("url", url);
     // formData.append("date", date); // Uncomment if you want to edit date
 
@@ -323,6 +329,30 @@ export default function EditTools() {
           </>
 
 
+          <label htmlFor="edit-steps-apple"></label>
+          <textarea
+            id="edit-steps-apple"
+            name="edit-steps-apple"
+            placeholder="Steps for Apple"
+            value={appleSteps}
+            onChange={(e) => setAppleSteps(e.target.value)}
+          />
+
+
+
+
+          <label htmlFor="edit-steps-android"></label>
+          <textarea
+            id="edit-steps-android"
+            name="edit-steps-android"
+            placeholder="Steps for Android"
+            value={androidSteps}
+            onChange={(e) => setAndroidSteps(e.target.value)}
+
+
+          />
+
+          {/* 
           <>
             <select name="edit-steps" id="edit-steps" onChange={(e) => {
               setOptionStep(e.target.value)
@@ -369,7 +399,7 @@ export default function EditTools() {
             </div>
 
           </>
-
+ */}
 
 
           <>
@@ -421,7 +451,7 @@ export default function EditTools() {
 
 
           <div className="group">
-            <label htmlFor="edit-email-counter">Email Count</label>
+            {/* <label htmlFor="edit-email-counter">Email Count</label>
             <input
               type="number"
               id="edit-email-counter"
@@ -429,7 +459,7 @@ export default function EditTools() {
               placeholder="Email Counter"
               value={emailCounter}
               onChange={(e) => setEmailCounter(Number(e.target.value))}
-            />
+            /> */}
           </div>
           <label>Image Preview (click to remove):</label>
 

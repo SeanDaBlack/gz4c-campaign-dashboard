@@ -16,7 +16,9 @@ interface ToolData {
   url: string;
   imgSrc: string;
   feature: boolean;
-  steps: { [key: string]: { title: string; content: string } };
+  // steps: { [key: string]: { title: string; content: string } };
+  stepsApple: string;
+  stepsAndroid: string;
   questions: { q: string, a: string }[];
 }
 
@@ -81,7 +83,9 @@ export default function Tools() {
         url: "",
         imgSrc: "",
         feature: false,
-        steps: {},
+        // steps: {},
+        stepsApple: "",
+        stepsAndroid: "",
         questions: [],
       } as ToolData,
     });
