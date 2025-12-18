@@ -57,6 +57,15 @@ export default function Initiatives() {
       }
 
       const data = await response.json();
+
+      // if topics is a string, convert it to an array
+      //
+      if (data.topics && typeof data.topics === "string") {
+        data.topics = data.topics
+          .split(",")
+          .map((topic: string) => topic.trim());
+      }
+
       console.log("Fetched initiatives:", data);
 
       // Assuming the API returns an array of initiatives

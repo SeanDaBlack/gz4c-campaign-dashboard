@@ -10,13 +10,36 @@ interface InitiativeProps {
   solution: string;
   achievement: string;
   date: string;
-  topics: string[]; // Array of topics, can be used for filtering or categorization
-  imgSrc: string; // Optional image source, can be used for displaying an image
+  topics: string[] | string; // Allow both string and array
+  imgSrc: string;
   uuid: string;
 }
 
 // card style component to display a statement formatted like data above
 export default function Initiative(InitiativeProps: InitiativeProps) {
+  // Parse topics if it's a string
+  const parseTopics = (topics: string[] | string): string[] => {
+    if (Array.isArray(topics)) {
+      return topics;
+    }
+    if (typeof topics === "string") {
+      try {
+        // Try to parse as JSON first
+        const parsed = JSON.parse(topics);
+        return Array.isArray(parsed) ? parsed : [topics];
+      } catch {
+        // If JSON parsing fails, split by comma
+        return topics
+          .split(",")
+          .map((topic) => topic.trim())
+          .filter((topic) => topic.length > 0);
+      }
+    }
+    return [];
+  };
+
+  const topicsArray = parseTopics(InitiativeProps.topics);
+
   return (
     <div className="form-container">
       <h1>
@@ -28,8 +51,7 @@ export default function Initiative(InitiativeProps: InitiativeProps) {
         style={{ width: "300px", height: "300px" }}
       />
       <p className="statement-topics">
-        Topics: {InitiativeProps.topics.join(", ")}
-
+        Topics: {topicsArray.length > 0 ? topicsArray.join(", ") : "None"}
       </p>
       <p className="form-item-content">{InitiativeProps.url}</p>
       <p className="form-item-content">

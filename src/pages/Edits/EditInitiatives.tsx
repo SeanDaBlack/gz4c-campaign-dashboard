@@ -197,7 +197,7 @@ export default function EditInitatives() {
             value={date}
             onChange={(e) => setDate(e.target.value)}
           />
-          <label htmlFor="edit-topics"></label>
+          {/* <label htmlFor="edit-topics"></label>
           <input
             type="text"
             id="edit-topics"
@@ -210,7 +210,7 @@ export default function EditInitatives() {
                 .map((topic) => topic.trim());
               setTopics(newTopics);
             }}
-          />
+          /> */}
 
           <label htmlFor="edit-url"></label>
           <input

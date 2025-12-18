@@ -10,7 +10,6 @@ const ENCODED_PASSWORD = import.meta.env.VITE_ENCODED_PASSWORD;
 function handleLogin(value: string) {
   console.log("Login attempt with password:", value);
 
-  console.log("Decoded password:", ENCODED_PASSWORD);
   // Decode the stored password
   const expectedPassword = atob(ENCODED_PASSWORD);
 
