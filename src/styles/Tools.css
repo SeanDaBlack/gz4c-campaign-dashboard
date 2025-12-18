@@ -1,0 +1,37 @@
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    justify-content: center;
+    gap: 10px;
+}
+
+.checkbox-group label {
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+
+}
+
+.group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    justify-content: center;
+    gap: 10px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.group label {
+    margin-left: 5px;
+    font-weight: bold;
+
+
+}

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../../styles/Statements.css";
+import "../../styles/ALL_PAGES.css";
 // import { Button, TextField } from "@mui/material";
 // import { FileUpload } from "../../components/FileUpload";
 import { validateUrl } from "../../util/handle_url"; // Import URL validation utility
@@ -174,10 +175,7 @@ export default function EditInitatives() {
       <div className="main-content">
         <h1>Edit Initiative</h1>
 
-        <div
-          className="edit-form"
-          style={{ width: "100%", display: "flex", flexDirection: "column" }}
-        >
+        <div className="edit-form">
           <label htmlFor="edit-title"></label>
           <input
             type="text"

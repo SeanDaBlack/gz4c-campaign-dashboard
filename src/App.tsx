@@ -5,9 +5,11 @@ import Login from "./pages/Login";
 import EditStatements from "./pages/Edits/EditStatements";
 import Statements from "./pages/Statements";
 import Press from "./pages/Press";
+import Tools from "./pages/Tools"
 import EditPress from "./pages/Edits/EditPress";
 import Initiatives from "./pages/Initiatives";
 import EditInitatives from "./pages/Edits/EditInitiatives";
+import EditTools from "./pages/Edits/EditTools";
 // import NotFound from "./pages/NotFound";
 
 // import
@@ -23,6 +25,12 @@ function App() {
   //   topics: [],
   //   date: "",
   // });
+
+  // check localStorage for authentication status on component mount
+  const storedAuth = localStorage.getItem("isAuthenticated");
+  if (storedAuth === "true" && !isAuthenticated) {
+    setIsAuthenticated(true);
+  }
 
   // if even not authenticated, redirect to login page
   if (!isAuthenticated) {
@@ -48,8 +56,13 @@ function App() {
               <Link to="/statements">Statements</Link>
               <Link to="/press">Press</Link>
               <Link to="/initiatives">Initiatives</Link>
+              <Link to="/tools">Tools</Link>
 
-              <button onClick={() => setIsAuthenticated(false)}>Logout</button>
+
+              <button onClick={() => {
+                setIsAuthenticated(false);
+                localStorage.removeItem("isAuthenticated");
+              }}>Logout</button>
             </>
           ) : (
             <Link to="/login">Login</Link>
@@ -82,6 +95,11 @@ function App() {
           <Route
             path="/edit-initiatives"
             element={<EditInitatives />} // Assuming you have an edit component for initiatives
+          />
+          <Route path="/tools" element={<Tools />} />
+          <Route
+            path="/edit-tools"
+            element={<EditTools />} // Placeholder, create EditTools component if needed
           />
           {/* <Route path="*" element={<NotFound />} /> */}
         </Routes>

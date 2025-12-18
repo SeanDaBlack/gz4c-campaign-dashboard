@@ -1,6 +1,7 @@
 import { useState, useEffect, } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../../styles/Statements.css";
+import "../../styles/ALL_PAGES.css";
 // import { Button, TextField } from "@mui/material";
 // import { FileUpload } from "../../components/FileUpload";
 
@@ -21,6 +22,8 @@ interface PressData {
   imgSrc: string;
   uuid: string;
 }
+
+const ENCODED_PASSWORD = import.meta.env.VITE_ENCODED_PASSWORD;
 
 export default function EditPress() {
   const location = useLocation();
@@ -88,7 +91,7 @@ export default function EditPress() {
       method: "POST",
       headers: {
         // Remove "Content-Type" header - let browser set it automatically for FormData
-        Authorization: `Bearer ${"password123"}`,
+        Authorization: `Bearer ${atob(ENCODED_PASSWORD)}`,
       },
       body: formData, // Use FormData instead of JSON.stringify
     })
@@ -153,10 +156,7 @@ export default function EditPress() {
       <div className="main-content">
         <h1>Edit Press Publication</h1>
 
-        <div
-          className="edit-form"
-          style={{ width: "100%", display: "flex", flexDirection: "column" }}
-        >
+        <div className="edit-form">
           <label htmlFor="edit-title"></label>
           <input
             type="text"

@@ -8,6 +8,7 @@ import "../styles/Statements.css";
 // import redirect component
 import { useNavigate } from "react-router-dom"; // Uncomment if you want to use react-router for navigation
 import Initiative from "../components/Initiative";
+const ENCODED_PASSWORD = import.meta.env.VITE_ENCODED_PASSWORD;
 
 const url =
   "https://get-statement-data-893947194926.us-central1.run.app/get_initiatives";
@@ -48,7 +49,7 @@ export default function Initiatives() {
         headers: {
           "Content-Type": "application/json",
           // Add authorization if needed
-          Authorization: `Bearer ${"password123"}`,
+          Authorization: `Bearer ${atob(ENCODED_PASSWORD)}`,
         },
       });
 
@@ -112,7 +113,7 @@ export default function Initiatives() {
         method: "DELETE",
         headers: {
           // Remove "Content-Type" header - let browser set it automatically for FormData
-          Authorization: `Bearer ${"password123"}`,
+          Authorization: `Bearer ${atob(ENCODED_PASSWORD)}`,
         },
         body: formData, // Use FormData instead of JSON.stringify
       });
